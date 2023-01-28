@@ -1,0 +1,5 @@
+heatpump:
+  mqtt-client-id: heatpump-steering
+  mqtt-inbound-topic: stat/sonof_mini_001/POWER
+  mqtt-url: tcp://192.168.0.22:32433
+  mqtt-outbound-topic: cmnd/sonof_mini_001/POWER
