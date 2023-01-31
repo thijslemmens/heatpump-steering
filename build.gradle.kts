@@ -2,6 +2,7 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.0.2"
 	id("io.spring.dependency-management") version "1.1.0"
+	id("com.google.cloud.tools.jib") version "3.3.1"
 //	id("org.graalvm.buildtools.native") version "0.9.18"
 }
 
@@ -24,9 +25,29 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.integration:spring-integration-test")
 	testImplementation("org.testcontainers:postgresql:1.17.6")
-
+	testImplementation("org.testcontainers:testcontainers:1.17.6")
+	testImplementation("org.testcontainers:junit-jupiter:1.17.6")
 }
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+jib {
+	from {
+		platforms {
+			platform {
+				architecture = "arm64"
+				os = "linux"
+			}
+			platform {
+				architecture = "amd64"
+				os = "linux"
+			}
+		}
+	}
+	to {
+		val imageProp: String? by project
+		image = imageProp
+	}
 }

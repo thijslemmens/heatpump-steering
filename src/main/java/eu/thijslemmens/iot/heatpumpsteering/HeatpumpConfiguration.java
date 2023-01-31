@@ -42,4 +42,24 @@ public class HeatpumpConfiguration {
     private String mqttOutboundTopic;
     private String mqttClientId;
 
+    public int getSwitchOffPowerThreshold() {
+        return switchOffPowerThreshold;
+    }
+
+    public void setSwitchOffPowerThreshold(int switchOffPowerThreshold) {
+        this.switchOffPowerThreshold = switchOffPowerThreshold;
+    }
+
+    public int getSwitchOnPowerThreshold() {
+        return switchOnPowerThreshold;
+    }
+
+    public void setSwitchOnPowerThreshold(int switchOnPowerThreshold) {
+        this.switchOnPowerThreshold = switchOnPowerThreshold;
+    }
+
+    private int switchOffPowerThreshold;
+    private int switchOnPowerThreshold;
+
+
 }

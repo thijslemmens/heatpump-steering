@@ -52,9 +52,9 @@ public class HeatpumpSteeringApplication {
 		return IntegrationFlow.from(jdbcPollingChannelAdapter, c -> c.poller(Pollers.fixedDelay(5000)))
 				.transform(o -> {
 					double sum = (double) ((Map) ((List) o).get(0)).get("sum");
-					if (heatPump.isOn() && sum < -200) {
+					if (heatPump.isOn() && sum < heatpumpConfiguration.getSwitchOffPowerThreshold()) {
 						return new MqttMessage("OFF".getBytes(StandardCharsets.UTF_8));
-					} else if (!heatPump.isOn() && sum > 500) {
+					} else if (!heatPump.isOn() && sum > heatpumpConfiguration.getSwitchOnPowerThreshold()) {
 						return new MqttMessage("ON".getBytes(StandardCharsets.UTF_8));
 					} else if(heatPump.isOn()) {
 						return new MqttMessage("ON".getBytes(StandardCharsets.UTF_8));

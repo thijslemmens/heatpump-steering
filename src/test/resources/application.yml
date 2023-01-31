@@ -1,3 +1,11 @@
 spring:
   datasource:
     url: jdbc:tc:timescaledb:latest-pg14:///iot
+
+heatpump:
+  mqtt-client-id: heatpump-steering
+  mqtt-inbound-topic: stat/sonof_mini_001/POWER
+  mqtt-url: tcp://localhost:1883
+  mqtt-outbound-topic: cmnd/sonof_mini_001/POWER
+  switch-on-power-threshold: 500
+  switch-off-power-threshold: -200
