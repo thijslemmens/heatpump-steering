@@ -33,6 +33,8 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
+val image: String? by project
+
 jib {
 	from {
 		platforms {
@@ -47,7 +49,6 @@ jib {
 		}
 	}
 	to {
-		val imageProp: String? by project
-		image = imageProp
+		image = image
 	}
 }
