@@ -33,8 +33,6 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
-val image: String? by project
-
 jib {
 	from {
 		platforms {
