@@ -7,6 +7,8 @@ import javax.sql.DataSource;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.mqttv5.client.MqttConnectionOptions;
 import org.eclipse.paho.mqttv5.common.MqttMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -24,6 +26,8 @@ import org.springframework.integration.mqtt.outbound.Mqttv5PahoMessageHandler;
 @SpringBootApplication
 @EnableConfigurationProperties(HeatpumpConfiguration.class)
 public class HeatpumpSteeringApplication {
+
+	Logger logger = LoggerFactory.getLogger(HeatpumpSteeringApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(HeatpumpSteeringApplication.class, args);
@@ -53,8 +57,10 @@ public class HeatpumpSteeringApplication {
 				.transform(o -> {
 					double sum = (double) ((Map) ((List) o).get(0)).get("sum");
 					if (heatPump.isOn() && sum < heatpumpConfiguration.getSwitchOffPowerThreshold()) {
+						logger.info("Turning off");
 						return new MqttMessage("OFF".getBytes(StandardCharsets.UTF_8));
 					} else if (!heatPump.isOn() && sum > heatpumpConfiguration.getSwitchOnPowerThreshold()) {
+						logger.info("Turning on");
 						return new MqttMessage("ON".getBytes(StandardCharsets.UTF_8));
 					} else if(heatPump.isOn()) {
 						return new MqttMessage("ON".getBytes(StandardCharsets.UTF_8));
